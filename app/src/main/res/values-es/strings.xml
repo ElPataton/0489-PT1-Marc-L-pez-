@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pt1 Marc_López</string>
+    <string name="Titulo">Calculadora Suprema</string>
+    <string name="divisio0">No puedes dividir entre 0</string>
+</resources>

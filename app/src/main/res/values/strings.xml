@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Pt1 Marc_López</string>
+    <string name="Titulo">Supreme Calculator</string>
+    <string name="divisio0">You can\'t divide by 0</string>
+
 </resources>

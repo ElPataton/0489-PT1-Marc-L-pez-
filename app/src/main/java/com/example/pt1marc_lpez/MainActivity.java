@@ -3,7 +3,6 @@
     import android.os.Bundle;
     import android.view.View;
     import android.widget.Button;
-    import android.widget.Switch;
     import android.widget.TextView;
 
     import androidx.activity.EdgeToEdge;
@@ -13,6 +12,7 @@
     import androidx.core.view.WindowInsetsCompat;
 
     public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
         Button btn1;
         Button btn2;
@@ -29,9 +29,10 @@
         Button btn13;
         Button btn14;
         Button btn15;
-        Button btn16;
         Button btn17;
         TextView resultat;
+        TextView error;
+
         private double num1 = 0;
         private double num2 = 0;
         private String operador = "";
@@ -61,10 +62,13 @@
             btn11 = findViewById(R.id.button17); // -
             btn12 = findViewById(R.id.button13); // +
             btn13 = findViewById(R.id.button15); // *
-            btn14 = findViewById(R.id.button16); // /
+            btn14 = findViewById(R.id.button0); // /
             btn15 = findViewById(R.id.button14); // =
             btn17 = findViewById(R.id.buttonC); //Earse
             resultat = findViewById(R.id.textView);
+            error = findViewById(R.id.textView5);
+            error.setVisibility(View.INVISIBLE);
+
 
             btn1.setOnClickListener(this);
             btn2.setOnClickListener(this);
@@ -81,7 +85,6 @@
             btn13.setOnClickListener(this);
             btn14.setOnClickListener(this);
             btn15.setOnClickListener(this);
-            btn16.setOnClickListener(this);
             btn17.setOnClickListener(this);
 
 
@@ -97,16 +100,21 @@
                     if (!textActual.isEmpty() && !operador.isEmpty()){
                         num2 = Double.parseDouble(textActual);
                         double res = 0;
+                        boolean hihaerror = false;
                         switch (operador){
                             case "+": res = num1 + num2;
                                 break;
                             case "-": res = num1 - num2;
                                 break;
                             case "*": res = num1 * num2;
+                            break;
                             //Try catch para atrapar division entre 0
                             case "/":
                                 if(num2 == 0){
-                                    resultat.setText("No se puede dividir entre 0");
+                                    error.setVisibility(View.VISIBLE);
+                                    error.setText("No se puede dividir entre 0");
+                                    hihaerror = true;
+
                                 }
                                 else {
                                     res = num1 / num2;
@@ -114,11 +122,13 @@
                             break;
                         }
                         //Mirar si necesita decimal o no
-                        if (res % 1 == 0){
-                            resultat.setText(String.valueOf((long)res));
-                        }
-                        else {
-                            resultat.setText(String.valueOf(res));
+                        if (!hihaerror) {
+                            error.setVisibility(View.INVISIBLE);
+                            if (res % 1 == 0){
+                                resultat.setText(String.valueOf((long)res));
+                            } else {
+                                resultat.setText(String.valueOf(res));
+                            }
                         }
                     }
                     operador = "";
@@ -133,6 +143,7 @@
                     }
                 }
                 else if (buttonText.equals("C")){
+                    error.setVisibility(View.INVISIBLE);
                     resultat.setText("");
                     num1 = 0;
                     num2 = 0;
@@ -142,6 +153,7 @@
                 else {
                     if(isOperadorPulsat){
                         resultat.setText("");
+                        error.setVisibility(View.INVISIBLE);
                         isOperadorPulsat = false;
                     }
                     resultat.append(buttonText);
